@@ -3,13 +3,41 @@
 {% block content %}
 
 <html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='flash.js')}}"></script> 
     <title>Flash Cards</title>
     <body>
-        {% if cards != None %}
-            {% for question, answer in cards %}
-                <li>Question: {{question}} Answer: {{answer}}</li>
-            {% endfor %}
-        {% endif %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Your Flash Cards</h1>
+                <button type="button" id="addCardBtn" class="btn btn-primary">Add Flash Card</button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <input type="text" class="form-control" id="questionField" placeholder="Enter Question">
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="answerField" placeholder="Enter Answer">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="saveChanges" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </section>
+        <div class="container" id="flashcards">
+            {% if cards != None %}
+                {% for question, answer in cards %}
+                    <li>Question: {{question}} Answer: {{answer}}</li>
+                {% endfor %}
+             {% endif %}
+        </div>
+        
     </body>
 </html>
 

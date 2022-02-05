@@ -56,6 +56,20 @@ def add_set():
     db.close()
     return json.dumps({"id": set_id, "name":name})
 
+@app.route("/add-card",  methods=["POST", "GET"])
+def add_card():
+    print("Incoming...")
+    print(request.get_json())
+    data = request.get_json()
+    question  = data["question"]
+    answer = data["answer"]
+    set_id = int(data["path"][5:])
+    print(set_id)
+    db = Database()
+    db.add_card(set_id, question, answer)
+    db.close()
+    return json.dumps({"question": question, "answer": answer})
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
