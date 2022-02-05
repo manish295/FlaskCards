@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<html>
+    <title>Flash Cards</title>
+    <body>
+        {% if cards != None %}
+            {% for question, answer in cards %}
+                <li>Question: {{question}} Answer: {{answer}}</li>
+            {% endfor %}
+        {% endif %}
+    </body>
+</html>
+
+{% endblock %}

@@ -39,39 +39,39 @@ class Database:
 
     def add_set(self, user_id, set_name):
         try:
-            self.cur.execute(f"INSERT INTO sets(user_id, set_name) VALUES('{user_id}', '{set_name}')")
+            self.cur.execute(f"INSERT INTO sets(user_id, set_name) VALUES('{user_id}', '{set_name}') RETURNING set_id, set_name")
             self.conn.commit()
+            result = self.cur.fetchall()
+            return result
         except Exception as err:
             print(err)
             self.close()
 
     def add_card(self, set_id, question, answer):
         try:
-            self.cur.execute(f"INSERT INTO cards(set_id, question, answer) VALUES({set_id}, '{question}', '{answer}')")
+            self.cur.execute(f"INSERT INTO cards(set_id, question, answer) VALUES({set_id}, '{question}', '{answer}') RETURNING card_id")
             self.conn.commit()
-        
+            result = self.cur.fetchall()
+            return result
         except Exception as err:
             print(err)
             self.close()
 
 
-    def get_set(self, user_id):
+    def get_sets(self, user_id):
         try:
             self.cur.execute(f"SELECT set_id, set_name FROM sets WHERE user_id = {user_id}")
             results = self.cur.fetchall()
             if len(results) == 0:
                 return None
             else:
-                id = results[0][0]
-                name_list = []
-                for name in results:
-                    name_list.append(name[1])
-                return (id, name_list)
+                return results
+
         except Exception as err:
             print(err)
             self.close()
         
-    def get_card(self, set_id):
+    def get_cards(self, set_id):
         try:
             self.cur.execute(f"SELECT question, answer FROM cards WHERE set_id = {set_id}")
             results = self.cur.fetchall()
