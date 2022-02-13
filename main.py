@@ -36,12 +36,18 @@ def logout():
     session.pop("user_id", None)
     return redirect(url_for("login"))
 
-@app.route("/set/<set_id>")
-def flash_cards(set_id):
+@app.route("/set/<set_id>/<set_name>")
+def flash_cards(set_id, set_name):
+    user_id = session["user_id"]
+    set_list = []
     db = Database()
+    for id in db.get_sets(user_id):
+        set_list.append(id[0])
+    if int(set_id) not in set_list:
+        return redirect(url_for("home"))
     cards = db.get_cards(set_id)
     db.close()
-    return render_template("flashcards.html", cards=cards)
+    return render_template("flashcards.html", cards=cards, set_name=set_name)
 
 
 @app.route("/add-set", methods=["POST", "GET"])
@@ -63,13 +69,24 @@ def add_card():
     data = request.get_json()
     question  = data["question"]
     answer = data["answer"]
-    set_id = int(data["path"][5:])
+    set_id = data["path"][5:]
+    set_id = int(set_id[:set_id.index("/")])
     print(set_id)
     db = Database()
     db.add_card(set_id, question, answer)
     db.close()
     return json.dumps({"question": question, "answer": answer})
 
+@app.route("/delete-set", methods=["POST", "GET"])
+def delete_set():
+    print("Incoming...")
+    print(request.get_json())
+    data = request.get_json()
+    set_id = data["set_id"]
+    db = Database()
+    db.delete_set(int(set_id))
+    db.close()
+    return json.dumps("success")
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

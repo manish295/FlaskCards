@@ -6,6 +6,8 @@ $(document).ready(function() {
 
     $('#closeModal').click(function() {
         console.log("modal off");
+        $('#questionField').val('');
+        $('#answerField').val('');
         $('#exampleModal').modal('hide');
     });
 
@@ -18,14 +20,30 @@ $(document).ready(function() {
             alert("Please fill out the fields!");
             return;
         }
+        $('#questionField').val('');
+        $('#answerField').val('');
         postData({"question": question, "answer": answer, "path": path}, function(result) {
             console.log(result);
             var html = `
-                <li>Question: `+ result.question +` Answer: `+ result.answer +`</li>
-            `
-            $('#flashcards').append(html);
+            <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
+                <div class="flip-card mt-2">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                    <h2>`+ question +`</h2>
+                    </div>
+                    <div class="flip-card-back">
+                    <h2>`+ answer + `</h2>
+                    </div>
+                </div>
+                </div>
+            </div>`
+            document.getElementById('cards').insertAdjacentHTML('beforeend', html);
         }) 
         $('#exampleModal').modal('hide');
+    });
+
+    $("body").on("click", '.flip-card', function() {
+        $(this).toggleClass('is-flipped');
     });
 
 });

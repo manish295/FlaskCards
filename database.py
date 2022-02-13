@@ -84,5 +84,13 @@ class Database:
             print(err)
             self.close()
 
+    def delete_set(self, set_id):
+        try:
+            self.cur.execute(f"DELETE FROM sets WHERE set_id = {set_id}")
+            self.conn.commit()
+        except Exception as err:
+            print(err)
+            self.close()
+
     def close(self):
         self.conn.close()

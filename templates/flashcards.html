@@ -5,13 +5,14 @@
 <html>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='flash.js')}}"></script> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css')}}"/>
     <title>Flash Cards</title>
     <body>
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">Your Flash Cards</h1>
+                <h1 class="jumbotron-heading">{{set_name}}</h1>
                 <button type="button" id="addCardBtn" class="btn btn-primary">Add Flash Card</button>
-
+                <a href="/">Back</a>
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -23,7 +24,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" id="saveChanges" class="btn btn-primary">Save changes</button>
+                          <button type="button" id="saveChanges" class="btn btn-primary">Add Card</button>
                         </div>
                       </div>
                     </div>
@@ -31,9 +32,21 @@
             </div>
         </section>
         <div class="container" id="flashcards">
-            {% if cards != None %}
+          <div class="row align-items-center" id="cards">
+              {% if cards != None %}
                 {% for question, answer in cards %}
-                    <li>Question: {{question}} Answer: {{answer}}</li>
+                  <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
+                    <div class="flip-card mt-2">
+                      <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                          <h2>{{question}}</h2>
+                        </div>
+                        <div class="flip-card-back">
+                          <h2>{{answer}}</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
                 {% endfor %}
              {% endif %}
         </div>
