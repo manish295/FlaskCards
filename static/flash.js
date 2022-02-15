@@ -22,10 +22,11 @@ $(document).ready(function() {
         }
         $('#questionField').val('');
         $('#answerField').val('');
-        postData({"question": question, "answer": answer, "path": path}, function(result) {
+        postData({"question": question, "answer": answer, "path": path}, "/add-card",  function(result) {
             console.log(result);
             var html = `
             <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
+                <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
                 <div class="flip-card mt-2">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
@@ -46,16 +47,28 @@ $(document).ready(function() {
         $(this).toggleClass('is-flipped');
     });
 
+    $("body").on("click", '#deleteBtn', function() {
+        console.log("clicked");
+        var card_id = $(this).next().data('id');
+        var card_div = $(this).parent()
+        
+        console.log(card_id);
+        postData({"card_id": card_id}, "/delete-card", function(result) {
+            console.log(result);
+            card_div.remove();
+        });
+    });
+
 });
 
 
-function postData(send, callback) {
+function postData(send, link, callback) {
     $.ajax ({
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(send),
         dataType: 'json',
-        url: "/add-card",
+        url: link,
         
     
     }).done(function(data){

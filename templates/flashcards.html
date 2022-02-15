@@ -34,9 +34,10 @@
         <div class="container" id="flashcards">
           <div class="row align-items-center" id="cards">
               {% if cards != None %}
-                {% for question, answer in cards %}
+                {% for card_id, question, answer in cards %}
                   <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
-                    <div class="flip-card mt-2">
+                    <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
+                    <div class="flip-card mt-2" data-id={{card_id}}>
                       <div class="flip-card-inner">
                         <div class="flip-card-front">
                           <h2>{{question}}</h2>

@@ -24,15 +24,11 @@ $(document).ready(function() {
 
     $("body").on("click", "#deleteSetBtn", function(){
         console.log("clicked");
-        var href = $(this).closest('.card-body').find('a').attr('href')
-        var set_id = href.substr(5)
-        console.log(set_id);
-        set_id = set_id.substr(0, set_id.indexOf("/"))
-        console.log(set_id);
-        var div = $(this).closest('.card').parent();
+        var card = $(this).closest('.card');
+        var set_id = card.data('id');
         postData({"set_id": set_id}, "/delete-set", function(result) {
             console.log(result);
-            div.remove();
+            card.parent().remove();
         });
     });
 

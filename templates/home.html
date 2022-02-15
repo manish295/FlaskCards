@@ -16,7 +16,7 @@
             {% if set_info != None %}
                 {% for id, name in set_info %}
                     <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" data-id={{id}} style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">{{name}}</h5>
                                 <a href="/set/{{id}}/{{name}}" class="card-link">Go to Set</a>

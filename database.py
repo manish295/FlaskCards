@@ -73,7 +73,7 @@ class Database:
         
     def get_cards(self, set_id):
         try:
-            self.cur.execute(f"SELECT question, answer FROM cards WHERE set_id = {set_id}")
+            self.cur.execute(f"SELECT card_id, question, answer FROM cards WHERE set_id = {set_id}")
             results = self.cur.fetchall()
             if len(results) == 0:
                 return None
@@ -87,6 +87,14 @@ class Database:
     def delete_set(self, set_id):
         try:
             self.cur.execute(f"DELETE FROM sets WHERE set_id = {set_id}")
+            self.conn.commit()
+        except Exception as err:
+            print(err)
+            self.close()
+
+    def delete_card(self, card_id):
+        try:
+            self.cur.execute(f"DELETE FROM cards WHERE card_id = {card_id}")
             self.conn.commit()
         except Exception as err:
             print(err)

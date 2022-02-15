@@ -88,5 +88,16 @@ def delete_set():
     db.close()
     return json.dumps("success")
 
+@app.route("/delete-card", methods=["POST", "GET"])
+def delete_card():
+    print("Incoming...")
+    print(request.get_json())
+    data = request.get_json()
+    card_id = data["card_id"]
+    db = Database()
+    db.delete_card(int(card_id))
+    db.close()
+    return json.dumps("success")
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
