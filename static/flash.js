@@ -23,22 +23,23 @@ $(document).ready(function() {
         $('#questionField').val('');
         $('#answerField').val('');
         postData({"question": question, "answer": answer, "path": path}, "/add-card",  function(result) {
-            console.log(result);
+            console.log(result.card_id);
             var html = `
             <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
-                <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
-                <div class="flip-card mt-2">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                    <h2>`+ question +`</h2>
-                    </div>
-                    <div class="flip-card-back">
-                    <h2>`+ answer + `</h2>
-                    </div>
+            <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
+            <div class="flip-card mt-2" data-id=`+ result.card_id +`>
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <h2>`+ question +`</h2>
                 </div>
+                <div class="flip-card-back">
+                  <h2>`+ answer +`</h2>
                 </div>
-            </div>`
-            document.getElementById('cards').insertAdjacentHTML('beforeend', html);
+              </div>
+            </div>
+          </div>  
+            `
+            $('#cards').append(html);
         }) 
         $('#exampleModal').modal('hide');
     });
@@ -58,7 +59,6 @@ $(document).ready(function() {
             card_div.remove();
         });
     });
-
 });
 
 

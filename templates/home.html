@@ -15,12 +15,17 @@
         <div class="row align-items-center" id="sets">
             {% if set_info != None %}
                 {% for id, name in set_info %}
-                    <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
-                        <div class="card" data-id={{id}} style="width: 18rem;">
+                    <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch" style="width:auto;">
+                        <div class="card" data-id={{id}}>
+                            <div class="card-header text-center bg-dark text-white">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mx-auto w-100" id="card-title">{{name}}</h5>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{name}}</h5>
                                 <a href="/set/{{id}}/{{name}}" class="card-link">Go to Set</a>
-                                <button type="button" id="deleteSetBtn" class="btn btn-danger">Delete Set</button>
+                                <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
+                                <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
                             </div>
                         </div>
                     </div>

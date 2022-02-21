@@ -73,9 +73,9 @@ def add_card():
     set_id = int(set_id[:set_id.index("/")])
     print(set_id)
     db = Database()
-    db.add_card(set_id, question, answer)
+    card_id = db.add_card(set_id, question, answer)[0][0]
     db.close()
-    return json.dumps({"question": question, "answer": answer})
+    return json.dumps({"question": question, "answer": answer, "card_id": card_id})
 
 @app.route("/delete-set", methods=["POST", "GET"])
 def delete_set():
@@ -86,7 +86,7 @@ def delete_set():
     db = Database()
     db.delete_set(int(set_id))
     db.close()
-    return json.dumps("success")
+    return json.dumps({"success":True}), 200
 
 @app.route("/delete-card", methods=["POST", "GET"])
 def delete_card():
@@ -97,7 +97,33 @@ def delete_card():
     db = Database()
     db.delete_card(int(card_id))
     db.close()
-    return json.dumps("success")
+    return json.dumps({"success":True}), 200
+
+@app.route("/update-card", methods=["POST", "GET"])
+def update_card():
+    print("Incoming...")
+    print(request.get_json())
+    data = request.get_json()
+    card_id = data["card_id"]
+    question = data["question"]
+    answer = data["answer"]
+    db = Database()
+    db.update_card(card_id, question, answer)
+    db.close()
+    return json.dumps({"success":True}), 200
+
+@app.route("/update-set", methods=["POST", "GET"])
+def update_set():
+    print("Incoming...")
+    print(request.get_json())
+    data = request.get_json()
+    set_id = data["set_id"]
+    set_name = data["set_name"]
+    db = Database()
+    db.update_set_name(set_id, set_name)
+    db.close()
+    return json.dumps({"success":True}), 200
+    
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
