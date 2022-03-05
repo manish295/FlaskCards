@@ -1,4 +1,5 @@
 import psycopg2
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Database:
 
@@ -10,19 +11,20 @@ class Database:
             password="manish2005" 
         )
         self.cur = self.conn.cursor()
-    
-    def handle_user(self, user_name, user_password):
+
+    def verify_password(self, user_name, password):
         try:
-            self.cur.execute("SELECT user_id FROM users WHERE name = %(user_name)s AND password = %(user_password)s", {'user_name': user_name, 'user_password': user_password})
+            self.cur.execute("SELECT user_id, password FROM users WHERE name = %(user_name)s", {'user_name': user_name})
             results = self.cur.fetchall()
             if len(results) == 0:
-                print("User does not exist! Adding now")
-                self.add_user(user_name, user_password)
-                return self.handle_user(user_name, user_password)
-
+                print("User does not exist!")
+                return False
             else:
-                print("User exists")
-                return results
+                for pwd in results:
+                    if check_password_hash(pwd[1], password):
+                        return pwd[0]
+                print("Incorrect password!")
+                return False
 
         except Exception as err:
             print(err)
@@ -30,6 +32,7 @@ class Database:
 
     def add_user(self, user_name, user_password):
         try:
+            user_password = generate_password_hash(user_password)
             self.cur.execute("INSERT INTO users(name, password) VALUES(%(user_name)s, %(user_password)s)", {'user_name': user_name, 'user_password': user_password})
             self.conn.commit()
             

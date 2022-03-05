@@ -23,7 +23,10 @@ def login():
     if request.method == "POST":
         user_name = request.form["username"]
         password = request.form["password"]
-        user_id = db.handle_user(user_name, password)[0][0]
+        user_id = db.verify_password(user_name, password)
+        if not user_id:
+            db.add_user(user_name, password)
+            user_id = db.verify_password(user_name, password)
         session["user_id"] = user_id
         db.close()
         return redirect(url_for("home"))
@@ -50,7 +53,7 @@ def flash_cards(set_id, set_name):
     return render_template("flashcards.html", cards=cards, set_name=set_name)
 
 
-@app.route("/add-set", methods=["POST", "GET"])
+@app.route("/add-set", methods=["POST"])
 def add_set():
     print("Incoming...")
     print(request.get_json())
@@ -62,7 +65,7 @@ def add_set():
     db.close()
     return json.dumps({"id": set_id, "name":name})
 
-@app.route("/add-card",  methods=["POST", "GET"])
+@app.route("/add-card",  methods=["POST"])
 def add_card():
     print("Incoming...")
     print(request.get_json())
@@ -77,7 +80,7 @@ def add_card():
     db.close()
     return json.dumps({"question": question, "answer": answer, "card_id": card_id})
 
-@app.route("/delete-set", methods=["POST", "GET"])
+@app.route("/delete-set", methods=["POST"])
 def delete_set():
     print("Incoming...")
     print(request.get_json())
@@ -88,7 +91,7 @@ def delete_set():
     db.close()
     return json.dumps({"success":True}), 200
 
-@app.route("/delete-card", methods=["POST", "GET"])
+@app.route("/delete-card", methods=["POST"])
 def delete_card():
     print("Incoming...")
     print(request.get_json())
@@ -99,7 +102,7 @@ def delete_card():
     db.close()
     return json.dumps({"success":True}), 200
 
-@app.route("/update-card", methods=["POST", "GET"])
+@app.route("/update-card", methods=["POST"])
 def update_card():
     print("Incoming...")
     print(request.get_json())
@@ -112,7 +115,7 @@ def update_card():
     db.close()
     return json.dumps({"success":True}), 200
 
-@app.route("/update-set", methods=["POST", "GET"])
+@app.route("/update-set", methods=["POST"])
 def update_set():
     print("Incoming...")
     print(request.get_json())
