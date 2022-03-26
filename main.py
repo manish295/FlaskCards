@@ -1,5 +1,5 @@
 from database import Database
-from flask import Flask, redirect, url_for, render_template, request, session, json
+from flask import Flask, flash, redirect, url_for, render_template, request, session, json
 
 app = Flask(__name__)
 app.secret_key = "supersecret"
@@ -19,19 +19,31 @@ def home():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    db = Database()
     if request.method == "POST":
+        db = Database()
         user_name = request.form["username"]
         password = request.form["password"]
         user_id = db.verify_password(user_name, password)
-        if not user_id:
-            db.add_user(user_name, password)
-            user_id = db.verify_password(user_name, password)
-        session["user_id"] = user_id
         db.close()
+        if not user_id:
+            flash("Invalid Credentials!", "warning")
+            return redirect(url_for("login"))
+        session["user_id"] = user_id
         return redirect(url_for("home"))
 
     return render_template("login.html")
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    if request.method == "POST":
+        db = Database()
+        user_name = request.form["username"]
+        password = request.form["password"]
+        db.add_user(user_name, password)
+        db.close()
+        flash("User Created!", "success")
+        return redirect(url_for("login"))
+    return render_template("register.html")
 
 
 @app.route("/logout")
