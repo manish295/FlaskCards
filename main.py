@@ -26,7 +26,7 @@ def login():
         user_id = db.verify_password(user_name, password)
         db.close()
         if not user_id:
-            flash("Invalid Credentials!", "warning")
+            flash("Invalid Credentials!/Account does not exist!", "warning")
             return redirect(url_for("login"))
         session["user_id"] = user_id
         return redirect(url_for("home"))

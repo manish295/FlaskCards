@@ -4,13 +4,47 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class Database:
 
     def __init__(self):
-        self.conn = psycopg2.connect(
-            host="localhost",
-            database="flashCardDB",
-            user="postgres",
-            password="manish2005" 
-        )
-        self.cur = self.conn.cursor()
+        try:
+            self.conn = psycopg2.connect(
+                host="localhost",
+                database="flashCardDB",
+                user="postgres",
+                password="manish2005" 
+            )
+            self.cur = self.conn.cursor()
+            self.cur.execute('''
+                    CREATE TABLE IF NOT EXISTS users(
+                        user_id serial PRIMARY KEY,
+                        name TEXT NOT NULL,
+                        password TEXT NOT NULL
+                    );
+            ''')
+            self.cur.execute('''
+                    CREATE TABLE IF NOT EXISTS sets(
+                        set_id serial PRIMARY KEY,
+                        user_id INT NOT NULL,
+                        set_name TEXT NOT NULL,
+                        FOREIGN KEY(user_id)
+                            REFERENCES users(user_id)
+                            ON DELETE CASCADE
+                    );
+            ''')
+            self.cur.execute('''
+                    CREATE TABLE IF NOT EXISTS cards(
+                        card_id serial PRIMARY KEY,
+                        set_id INT NOT NULL,
+                        question TEXT NOT NULL,
+                        answer TEXT NOT NULL,
+                        FOREIGN KEY(set_id)
+                            REFERENCES sets(set_id)
+                            ON DELETE CASCADE
+                    );
+            
+            ''')
+            self.conn.commit()
+        except Exception as err:
+            print(err)
+            self.close()
 
     def verify_password(self, user_name, password):
         try:
