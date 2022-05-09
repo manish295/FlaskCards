@@ -1,7 +1,7 @@
 .flip-card {
     background-color: transparent;
-    width: 300px;
-    height: 300px;
+    width: 600px;
+    height: 250px;
     perspective: 1000px;
   }
   
@@ -42,4 +42,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  h3 {
+    width: inherit;
+    overflow-wrap: break-word;
   }

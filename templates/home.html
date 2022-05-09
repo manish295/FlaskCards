@@ -8,14 +8,13 @@
         <div class="container">
             <h1 class="jumbotron-heading">Your Flash Sets</h1>
             <button type="button" id="addSetBtn" class="btn btn-primary my-2">Add Set</button>
-            <a href="/logout">Logout</a>
+            <a class="btn btn-danger" href="/logout">Logout</a>
         </div>
     </section>
-    <div class="container">
-        <div class="row align-items-center" id="sets">
+        <div class="row justify-content-center mx-md-n1" id="sets">
             {% if set_info != None %}
                 {% for id, name in set_info %}
-                    <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch" style="width:auto;">
+                    <div class="col px-md-1 col-8 col-lg-4 col-xl-3 d-flex align-self-stretch mt-4" style="width:auto;">
                         <div class="card" data-id={{id}}>
                             <div class="card-header text-center bg-dark text-white">
                                 <div class="d-flex align-items-center">
@@ -23,7 +22,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a href="/set/{{id}}/{{name}}" class="card-link">Go to Set</a>
+                                <a class="btn btn-success" href="/set/{{id}}/{{name}}">Go to Set</a>
                                 <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
                                 <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
                             </div>
@@ -32,7 +31,6 @@
                 {% endfor %}
             {% endif %}
         </div>
-    </div>
 </body>
 
 {% endblock %}

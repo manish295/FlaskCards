@@ -1,4 +1,4 @@
-from database import Database
+from back_end.database import Database
 from flask import Flask, flash, redirect, url_for, render_template, request, session, json
 
 app = Flask(__name__)
@@ -62,8 +62,20 @@ def flash_cards(set_id, set_name):
         return redirect(url_for("home"))
     cards = db.get_cards(set_id)
     db.close()
-    return render_template("flashcards.html", cards=cards, set_name=set_name)
+    return render_template("flashcards.html", cards=cards, set_name=set_name, set_id=int(set_id))
 
+@app.route("/set/<set_id>/<set_name>/study")
+def study_mode(set_id, set_name):
+    user_id = session["user_id"]
+    set_list = []
+    db = Database()
+    for id in db.get_sets(user_id):
+        set_list.append(id[0])
+    if int(set_id) not in set_list:
+        return redirect(url_for("home"))
+    cards = db.get_cards(set_id)
+    db.close()
+    return render_template("study_mode.html", cards=cards, set_id=set_id, set_name=set_name)
 
 @app.route("/add-set", methods=["POST"])
 def add_set():

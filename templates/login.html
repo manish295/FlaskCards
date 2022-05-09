@@ -15,12 +15,15 @@
   {% endif %}
 {% endwith %}
 
-<body class="bg-light vh-100">
+<body class="vh-100">
   <div class="container vh-100">
     <div class="row align-items-center vh-100">
       <div class="col-lg-5 mx-auto">
         <div class="bg-white  p-5 rounded shadow-sm">
           <form method="POST" action="#">
+            <div class="mb-3">
+              <h2 class="text-center text-primary">Welcome to Flash Cards</h2>
+            </div>
             <div class="mb-3">
               <label for="username" class="form-label text-danger">Username</label>
               <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
@@ -35,7 +38,6 @@
               </div>
               <div class="col">
                 <a type="button" class="btn btn btn-primary btn-block btn-lg mx-auto d-block" href="/register">Register</a>
-                <!-- <a class="btn btn btn-primary btn-block btn-lg mx-auto" href="/register" role="button">Register</a> -->
               </div>
             </div>
             

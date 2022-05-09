@@ -27,13 +27,13 @@ $(document).ready(function() {
             var html = `
             <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
             <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
-            <div class="flip-card mt-2" data-id=`+ result.card_id +`>
+            <div class="flip-card mt-2 pb-1" data-id=`+ result.card_id +`>
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <h2>`+ question +`</h2>
+                  <h3>`+ question +`</h2>
                 </div>
                 <div class="flip-card-back">
-                  <h2>`+ answer +`</h2>
+                  <h3>`+ answer +`</h2>
                 </div>
               </div>
             </div>

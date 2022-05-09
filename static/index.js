@@ -7,7 +7,7 @@ $(document).ready(function() {
         console.log(name_set);
         postData({"set_name":name_set}, "/add-set", function(result) {
             var card = `
-            <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch" style="width:auto;">
+            <div class="col px-md-1 col-8 col-lg-4 col-xl-3 d-flex align-self-stretch mt-4" style="width:auto;">
             <div class="card" data-id=`+ result.id + `>
                 <div class="card-header text-center bg-dark text-white">
                     <div class="d-flex align-items-center">
@@ -15,7 +15,7 @@ $(document).ready(function() {
                     </div>
                 </div>
                 <div class="card-body">
-                    <a href="/set/`+ result.id +`/`+ result.name +`" class="card-link">Go to Set</a>
+                    <a class="btn btn-success" href="/set/`+ result.id +`/`+ result.name +`">Go to Set</a>
                     <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
                     <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
                 </div>
@@ -41,6 +41,7 @@ $(document).ready(function() {
         console.log("clicked");
         var set = $(this).closest('.card');
         var title = set.find('h5');
+        var href_title = set.find('a');
         var set_id = set.data('id');
         var name_set = prompt('New Name of the set');
         if(name_set == null) {
@@ -49,7 +50,8 @@ $(document).ready(function() {
         postData({"set_id": set_id, "set_name": name_set}, "/update-set", function(result) {
             console.log(result);
             title.text(name_set);
-        })
+            href_title.attr("href", "/set/" + set_id + "/" + name_set);
+        })  
     });
 
 });
