@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    
+
     $('#addSetBtn').click(function() {
         var name_set = prompt('Name of the set');
         if (name_set == null) {
@@ -16,6 +18,7 @@ $(document).ready(function() {
                 </div>
                 <div class="card-body">
                     <a class="btn btn-success" href="/set/`+ result.id +`/`+ result.name +`">Go to Set</a>
+                    <button type="button" id="setCommunityTrue" class="btn btn-sm btn-warning">Publish</button>
                     <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
                     <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
                 </div>
@@ -26,6 +29,29 @@ $(document).ready(function() {
         })
 
     });
+
+    $("body").on("click", "#setCommunityTrue", function() {
+        set_id = $(this).closest('.card').data('id');
+        postData({"set_id": set_id, "value": true}, "/update-set-community", function(result) {
+            console.log(result);
+            if (result.success) {
+                alert("Set Published!")
+                location.reload();
+            }
+            else {
+                alert("Cannot publish empty set");
+            }
+        })
+    })
+
+    $("body").on("click", "#setCommunityFalse", function() {
+        set_id = $(this).closest('.card').data('id');
+        alert("Set Unpublished!")
+        postData({"set_id": set_id, "value": false}, "/update-set-community", function(result) {
+            console.log(result);
+            location.reload();
+        })
+    })
 
     $("body").on("click", "#deleteSetBtn", function(){
         console.log("clicked");

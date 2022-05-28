@@ -2,18 +2,23 @@
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='JS/index.js') }}"></script>
 <body>
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">Your Flash Sets</h1>
-            <button type="button" id="addSetBtn" class="btn btn-primary my-2">Add Set</button>
-            <a class="btn btn-danger" href="/logout">Logout</a>
+            <h1 class="jumbotron-heading text-white">{{message}}</h1>
+            {% if c_mode %}
+                <a class="btn btn-danger" href="/">Back</a>
+            {% else %}
+                <button type="button" id="addSetBtn" class="btn btn-primary my-2">Add Set</button>
+                <a class="btn btn-warning" href="/community">Community Curated Sets</a>
+                <a class="btn btn-danger" href="/logout">Logout</a>
+            {% endif %}
         </div>
     </section>
         <div class="row justify-content-center mx-md-n1" id="sets">
             {% if set_info != None %}
-                {% for id, name in set_info %}
+                {% for id, name, community in set_info %}
                     <div class="col px-md-1 col-8 col-lg-4 col-xl-3 d-flex align-self-stretch mt-4" style="width:auto;">
                         <div class="card" data-id={{id}}>
                             <div class="card-header text-center bg-dark text-white">
@@ -22,9 +27,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a class="btn btn-success" href="/set/{{id}}/{{name}}">Go to Set</a>
-                                <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
-                                <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
+                                {% if c_mode %}
+                                    <a class="btn btn-success" href="community/set/{{id}}/{{name}}">Go to Set</a>
+                                {% else %}
+                                    <a class="btn btn-success" href="/set/{{id}}/{{name}}">Go to Set</a>
+                                    {% if community %}
+                                        <button type="button" id="setCommunityFalse" class="btn btn-sm btn-danger">Unpublish</button>
+                                    {% else %}
+                                        <button type="button" id="setCommunityTrue" class="btn btn-sm btn-warning">Publish</button>
+                                    {% endif %}
+                                    <button type="button" id="deleteSetBtn" class="btn btn-sm btn-danger">Delete Set</button>
+                                    <button type="button" id="updateSetBtn" class="btn btn-sm btn-info">Edit Name</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

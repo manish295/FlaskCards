@@ -15,26 +15,34 @@
   {% endif %}
 {% endwith %}
 
-<body class="bg-light vh-100">
+<body class="vh-100">
   <div class="container vh-100">
     <div class="row align-items-center vh-100">
       <div class="col-lg-5 mx-auto">
         <div class="bg-white  p-5 rounded shadow-sm">
           <form method="POST" action="#">
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label text-danger">Username</label>
               <input type="text" class="form-control" id="username" placeholder="Create username" name="username">
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
+              <label for="password" class="form-label text-danger">Password</label>
               <input type="password" class="form-control" id="password" placeholder="Create password" name="password">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label text-danger">Retype Password</label>
+              <input type="password" class="form-control" id="password-confirm" placeholder="Retype password" name="password-confirm">
             </div>
             <div class="row">
               <div class="col">
                 <button type="submit" class="btn btn btn-primary btn-block btn-lg mx-auto d-block">Register</button>
               </div>
             </div>
-            
+            <div class="row">
+              <div class="col">
+                <p class="text-center text-info">Already have an account? <a href="/login">Login</a></p>
+              </div>
+            </div>
           </form>
         </div>
       </div>

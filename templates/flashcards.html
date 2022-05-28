@@ -4,18 +4,26 @@
 
 <html>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='flashcards.js')}}"></script> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='card.css')}}"/>
+    <script src="{{ url_for('static', filename='JS/flashcards.js')}}"></script> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css')}}"/>
     <title>Flash Cards</title>
     <body>
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">{{set_name}}</h1>
-                <div class="mb-5 text-center">
-                  <button type="button" id="addCardBtn" class="btn btn-primary">Add Flash Card</button>
-                  <a class="btn btn-danger" href="/" role="button">Back</a>
-                  <a class="btn btn-success" href="/set/{{set_id}}/{{set_name}}/study">Study Mode</a>
-                </div>
+                <h1 class="jumbotron-heading text-white">{{set_name}}</h1>
+                  <div class="mb-5 text-center">
+                    <button type="button" id="addCardBtn" class="btn btn-primary">Add Flash Card</button>
+                    {% if not c_mode %}  
+                      <a class="btn btn-danger" href="/" role="button">Back</a>
+                    {% else %}
+                      <a class="btn btn-danger" href="/community" role="button">Back</a>
+                    {% endif %}
+                    {% if c_mode %}
+                      <a class="btn btn-success" href="/community/set/{{set_id}}/{{set_name}}/study">Study Mode</a>
+                    {% else %}
+                      <a class="btn btn-success" href="/set/{{set_id}}/{{set_name}}/study">Study Mode</a>
+                    {% endif %}
+                  </div>
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -39,7 +47,9 @@
               {% if cards != None %}
                 {% for card_id, question, answer in cards %}
                   <div class="col-8 col-lg-4 col-xl-3 d-flex align-self-stretch">
-                    <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
+                    {% if not c_mode %}
+                      <button type="button" id="deleteBtn" class="btn-close btn-close-black" aria-label="Close"></button>
+                    {% endif %}
                     <div class="flip-card mt-1 pb-1" data-id={{card_id}}>
                       <div class="flip-card-inner">
                         <div class="flip-card-front">

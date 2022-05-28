@@ -24,6 +24,7 @@ class Database:
                         set_id serial PRIMARY KEY,
                         user_id INT NOT NULL,
                         set_name TEXT NOT NULL,
+                        community BOOLEAN NOT NULL,
                         FOREIGN KEY(user_id)
                             REFERENCES users(user_id)
                             ON DELETE CASCADE
@@ -76,7 +77,7 @@ class Database:
 
     def add_set(self, user_id, set_name):
         try:
-            self.cur.execute("INSERT INTO sets(user_id, set_name) VALUES(%(user_id)s, %(set_name)s) RETURNING set_id, set_name", {'user_id': user_id, 'set_name': set_name})
+            self.cur.execute("INSERT INTO sets(user_id, set_name, community) VALUES(%(user_id)s, %(set_name)s, FALSE) RETURNING set_id, set_name", {'user_id': user_id, 'set_name': set_name})
             self.conn.commit()
             result = self.cur.fetchall()
             return result
@@ -97,13 +98,26 @@ class Database:
 
     def get_sets(self, user_id):
         try:
-            self.cur.execute("SELECT set_id, set_name FROM sets WHERE user_id = %(user_id)s", {'user_id': user_id})
+            self.cur.execute("SELECT set_id, set_name, community FROM sets WHERE user_id = %(user_id)s ORDER BY set_id", {'user_id': user_id})
+            results = self.cur.fetchall()
+            if len(results) == 0:
+                return None
+            else:
+                print(results)
+                return results
+
+        except Exception as err:
+            print(err)
+            self.close()
+
+    def get_sets_community(self):
+        try:
+            self.cur.execute("SELECT set_id, set_name, community FROM sets WHERE community = TRUE")
             results = self.cur.fetchall()
             if len(results) == 0:
                 return None
             else:
                 return results
-
         except Exception as err:
             print(err)
             self.close()
@@ -124,6 +138,14 @@ class Database:
     def update_set_name(self, set_id, set_name):
         try:
             self.cur.execute("UPDATE sets SET set_name = %(set_name)s WHERE set_id = %(set_id)s", {'set_name': set_name, 'set_id': set_id})
+            self.conn.commit()
+        except Exception as err:
+            print(err)
+            self.close()
+    
+    def update_community(self, set_id, value):
+        try:
+            self.cur.execute("UPDATE sets SET community = %(value)s WHERE set_id = %(set_id)s", {'value': value, 'set_id': set_id})
             self.conn.commit()
         except Exception as err:
             print(err)

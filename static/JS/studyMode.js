@@ -6,6 +6,9 @@ $(document).ready(function() {
     console.log(currIndex);
     $('.num').html('' + currIndex + '/' + total + '');
     $('#prev').hide();
+    if (total == currIndex) {
+        $('#next').hide();
+    }
 
     $('#next, #prev').click(function() {
         console.log('clicked');
