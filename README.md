@@ -4,7 +4,6 @@ The Flash Cards website allows users to create flash cards to help them study. U
 
 ## Planned Features
 * ### Test Mode
-* ### Community Flash cards 
 
 # Libraries 
 * ### [Flask](https://flask.palletsprojects.com/en/2.0.x/)
