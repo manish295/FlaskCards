@@ -1,19 +1,7 @@
 		
 {% extends "base.html" %}
-
+{% block navbar %} {% endblock %}
 {% block content %}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
-  {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{category}}" id="success-alert">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      <strong>{{message}}</strong>
-    </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 
 <body class="vh-100">
   <div class="container vh-100">
@@ -32,12 +20,14 @@
               <label for="password" class="form-label text-danger">Password</label>
               <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
             </div>
+            
+
             <div class="row">
-              <div class="col">
-                <button type="submit" class="btn btn btn-primary btn-block btn-lg mx-auto d-block">Login</button>
+              <div class="col text-center">
+                <button type="submit" name="button" value="login" class="btn btn-primary">Login</button>
               </div>
-              <div class="col">
-                <a type="button" class="btn btn btn-primary btn-block btn-lg mx-auto d-block" href="/register">Register</a>
+              <div class="col text-center">
+                <button type="submit" name="button" value="register" class="btn btn-primary">Register</button>
               </div>
             </div>
             

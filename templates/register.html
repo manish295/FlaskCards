@@ -1,19 +1,7 @@
 		
 {% extends "base.html" %}
-
+{% block navbar %} {% endblock %}
 {% block content %}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
-  {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{category}}" id="success-alert">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      <strong>{{message}}</strong>
-    </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 
 <body class="vh-100">
   <div class="container vh-100">
@@ -34,8 +22,8 @@
               <input type="password" class="form-control" id="password-confirm" placeholder="Retype password" name="password-confirm">
             </div>
             <div class="row">
-              <div class="col">
-                <button type="submit" class="btn btn btn-primary btn-block btn-lg mx-auto d-block">Register</button>
+              <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Register</button>
               </div>
             </div>
             <div class="row">

@@ -142,6 +142,24 @@ class Database:
         except Exception as err:
             print(err)
             self.close()
+        
+    def update_user_info(self, user_id, user_name, user_password):
+        if user_name != None:
+            try:
+                self.cur.execute("UPDATE users SET name = %(user_name)s WHERE user_id = %(user_id)s", {'user_name': user_name, 'user_id': user_id})
+                self.conn.commit()
+            except Exception as err:
+                print(err)
+                self.close()
+        if user_password != None:
+            try:
+                pass_hash = generate_password_hash(user_password)
+                self.cur.execute("UPDATE users SET password = %(user_password)s WHERE user_id = %(user_id)s", {'user_password': pass_hash, 'user_id': user_id})
+                self.conn.commit()
+            except Exception as err:
+                print(err)
+                self.close()
+                
     
     def update_community(self, set_id, value):
         try:
@@ -154,6 +172,14 @@ class Database:
     def update_card(self, card_id, question, answer):
         try:
             self.cur.execute("UPDATE cards SET question = %(question)s, answer = %(answer)s WHERE card_id = %(answer)s", {'question': question, 'answer': answer, 'card_id': card_id})
+            self.conn.commit()
+        except Exception as err:
+            print(err)
+            self.close()
+
+    def delete_account(self, user_id):
+        try:
+            self.cur.execute("DELETE FROM users WHERE user_id = %(user_id)s", {'user_id': user_id})
             self.conn.commit()
         except Exception as err:
             print(err)
