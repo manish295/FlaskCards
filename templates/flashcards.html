@@ -15,11 +15,6 @@
                     {% if not c_mode %}
                       <button type="button" id="addCardBtn" class="btn btn-primary">Add Flash Card</button>
                     {% endif %}
-                    {% if not c_mode %}  
-                      <a class="btn btn-danger" href="/" role="button">Back</a>
-                    {% else %}
-                      <a class="btn btn-danger" href="/community" role="button">Back</a>
-                    {% endif %}
                     {% if c_mode %}
                       <a class="btn btn-success" href="/community/set/{{set_id}}/{{set_name}}/study">Study Mode</a>
                     {% else %}

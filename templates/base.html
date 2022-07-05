@@ -3,15 +3,20 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/solar/bootstrap.css">  
-        <title>{% block title %} Flash Cards {% endblock %}</title>
+        <title>{% block title %} Flask Cards {% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="static/images/flashcards.png">
+
        
     </head>
     <body>
         {% block navbar %}
-        <nav class="navbar navbar-expand-lg navbar-light bg-info p-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info p-3">
             <div class="container-fluid">
-              <a class="navbar-brand" href="/">Flash Cards</a>
+              <a class="navbar-brand" href="/">
+                <img src="static/images/flashcards.png" width="30" height="30" class="rounded-pill">
+                Flask Cards
+              </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -25,7 +30,7 @@
                     <a class="nav-link mx-2" href="/community">Community</a>
                   </li>
                   <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link mx-2 dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Account
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

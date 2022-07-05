@@ -95,15 +95,23 @@ class Database:
             print(err)
             self.close()
 
+    def get_user_name(self, user_id):
+        try:
+            self.cur.execute("SELECT name FROM users WHERE user_id = %(user_id)s", {"user_id": user_id})
+            results = self.cur.fetchone()
+            return results
+        
+        except Exception as err:
+            print(err)
+            self.close()
 
     def get_sets(self, user_id):
         try:
-            self.cur.execute("SELECT set_id, set_name, community FROM sets WHERE user_id = %(user_id)s ORDER BY set_id", {'user_id': user_id})
+            self.cur.execute("SELECT user_id, set_id, set_name, community FROM sets WHERE user_id = %(user_id)s ORDER BY set_id", {'user_id': user_id})
             results = self.cur.fetchall()
             if len(results) == 0:
                 return None
             else:
-                print(results)
                 return results
 
         except Exception as err:
@@ -112,7 +120,7 @@ class Database:
 
     def get_sets_community(self):
         try:
-            self.cur.execute("SELECT set_id, set_name, community FROM sets WHERE community = TRUE")
+            self.cur.execute("SELECT user_id, set_id, set_name, community FROM sets WHERE community = TRUE")
             results = self.cur.fetchall()
             if len(results) == 0:
                 return None
@@ -203,3 +211,16 @@ class Database:
 
     def close(self):
         self.conn.close()
+# db = Database()
+# set_info = db.get_sets_community()
+# user_names = {}
+# print(set_info)
+# if set_info != None:
+#     for x in set_info:
+#         user_id = x[0]
+#         print(user_id)
+#         name = db.get_user_name(user_id)[0]
+#         user_names[user_id] = name
+
+# db.close()
+# print(user_names)

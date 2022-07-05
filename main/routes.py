@@ -19,8 +19,14 @@ def home(community=None):
         return render_template("home.html", message="Your Card sets", set_info=set_info, c_mode=False)
     else:
         set_info = db.get_sets_community()
+        user_names = {}
+        if set_info != None:
+            for x in set_info:
+                user_id = x[0]
+                name = db.get_user_name(user_id)[0]
+                user_names[user_id] = name
         db.close()
-        return render_template("home.html", message="Community Curated Sets", set_info=set_info, c_mode=True)
+        return render_template("home.html", message="Community Curated Sets", set_info=set_info, c_mode=True, user_names=user_names)
 
 
 @main.route("/login", methods=["POST", "GET"])
@@ -50,6 +56,9 @@ def register():
         user_name = request.form["username"]
         password = request.form["password"]
         confirm_password = request.form["password-confirm"]
+        if " " in user_name:
+            flash("No spaces allowed in username!", "warning")
+            return redirect(url_for("main.register"))
         if password != confirm_password:
             flash("Passwords don't match!", "warning")
             return redirect(url_for("main.register"))
@@ -97,7 +106,7 @@ def profile():
         total = len(sets)
         published = 0
         unpublished = 0
-        for id, set_name, p in sets:
+        for u_id, set_id, set_name, p in sets:
             if p:
                 published += 1
             else:
@@ -123,6 +132,9 @@ def profile():
             
             if user_name == "":
                 user_name = None
+            if " " in user_name:
+                flash("No spaces allowed in username!", "warning")
+                return redirect(url_for("main.profile"))
             if password == "":
                 if confirm_password != "":
                     flash("Fill out password fields completely!", "warning")
@@ -174,13 +186,13 @@ def validate_user(user_id, set_id, community=False):
         set_list = []
         if db.get_sets(user_id) != None:
             for id in db.get_sets(user_id):
-                set_list.append(id[0])
+                set_list.append(id[1])
         if int(set_id) not in set_list:
             return False
     else:
         community_list = []
         if db.get_sets_community() != None:
             for id in db.get_sets_community():
-                community_list.append(id[0])
+                community_list.append(id[1])
         if int(set_id) not in community_list:
             return False
