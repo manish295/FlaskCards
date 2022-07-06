@@ -1,15 +1,25 @@
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import urllib.parse as urlparse
+
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
 
 class Database:
 
     def __init__(self):
         try:
             self.conn = psycopg2.connect(
-                host="localhost",
-                database="flashCardDB",
-                user="postgres",
-                password="manish2005" 
+                host=host,
+                database=dbname,
+                user=user,
+                password=password,
+                port=port 
             )
             self.cur = self.conn.cursor()
             self.cur.execute('''
