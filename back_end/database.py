@@ -221,16 +221,3 @@ class Database:
 
     def close(self):
         self.conn.close()
-# db = Database()
-# set_info = db.get_sets_community()
-# user_names = {}
-# print(set_info)
-# if set_info != None:
-#     for x in set_info:
-#         user_id = x[0]
-#         print(user_id)
-#         name = db.get_user_name(user_id)[0]
-#         user_names[user_id] = name
-
-# db.close()
-# print(user_names)
