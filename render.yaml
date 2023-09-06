@@ -10,5 +10,5 @@ services:
     numInstances: 1
     envVars:
 databases:
-  - name: accentus-app
+  - name: flaskcards
     plan: free
