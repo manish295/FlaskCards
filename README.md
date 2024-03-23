@@ -2,7 +2,7 @@
 A website made using Flask that allows users to make flash card to help them study.
 
 ## Deployed at
-https://flaskcards-1.herokuapp.com
+[https://flaskcards-1.onrender.com](https://flaskcards-1.onrender.com)
 
 ## Features
 * ### Group flash cards in categories
